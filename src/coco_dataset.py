@@ -73,7 +73,6 @@ class CocoTrainDataset(CocoDetection):
                 boxes[i] = [box[0] / augmented_image.shape[0], box[1] / augmented_image.shape[1], (box[0] + box[2]) / augmented_image.shape[0], (box[1] + box[3]) / augmented_image.shape[1]]
 
             transformed['class_labels']
-
             
             boxes, labels = self.encoder.encode(torch.tensor(np.array(boxes), dtype = torch.float), torch.tensor(transformed['class_labels']).long())            
             image = transform(augmented_image) # image to Tensor form
@@ -194,13 +193,13 @@ class CocoTestDataset(CocoDetection):
                               
             augmented_image = transformed['image']
             boxes = transformed['bboxes']
-            for i, box in enumerate(boxes):
-                boxes[i] = [box[0] / augmented_image.shape[0], box[1] / augmented_image.shape[1], (box[0] + box[2]) / augmented_image.shape[0], (box[1] + box[3]) / augmented_image.shape[1]]
+            labels = transformed['class_labels']
+            # for i, box in enumerate(boxes):
+            #     boxes[i] = [box[0] / augmented_image.shape[0], box[1] / augmented_image.shape[1], (box[0] + box[2]) / augmented_image.shape[0], (box[1] + box[3]) / augmented_image.shape[1]]
 
-            transformed['class_labels']
-
+            # transformed['class_labels']
             
-            boxes, labels = self.encoder.encode(torch.tensor(np.array(boxes), dtype = torch.float), torch.tensor(transformed['class_labels']).long())            
+            # boxes, labels = self.encoder.encode(torch.tensor(np.array(boxes), dtype = torch.float), torch.tensor(transformed['class_labels']).long())            
             image = transform(augmented_image) # image to Tensor form
 
-        return (image, boxes, labels)
+        return (image, target[0]["image_id"], (augmented_image.shape[1], augmented_image.shape[1]), boxes, labels)

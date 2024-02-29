@@ -171,7 +171,7 @@ class Encoder(object):
             if i == 0:
               continue
             # score = score.squeeze(1)
-            mask = score > 0.003
+            mask = score > 0.00001
             # bboxes, score = bboxes_in[mask, :], score[mask]
             bboxes, score = bboxes_in[mask, :], score[mask]
             if score.size(0) == 0: continue
